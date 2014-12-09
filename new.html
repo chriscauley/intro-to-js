@@ -111,8 +111,8 @@
       <ul>
         <li>We'll be drawing a lot of rectangles and circles, so let's make functions</li>
         <li>This also allows the code to look less cluttered</li>
-        <li>Library is constructed with "function drawRect(options);"</li>
-        <li>Library is accessed with "drawRect(paddle);"</li>
+        <li>function is constructed with "function rect(options);"</li>
+        <li>function is accessed with "rect(paddle);"</li>
         <li>View <a href="https://github.com/chriscauley/intro-to-js/blob/master/step2.js" target="_blank">step2.js</a>
           for full code</li>
       </ul>
@@ -135,8 +135,11 @@ function clear() { context.clearRect(0,0,WIDTH,HEIGHT); }</code></pre>
     </section>
 
     <section class="slide">
-      <h2>Draw functions: Continued</h2>
-      <pre><code class="js">function draw(shape) {
+      <h2>Draw functions: Let's start coding!</h2>
+      <ul>
+        <li>We'll copy and paste this step into "game.js"</li>
+      </ul>
+      <pre><code class="js">function rect(shape) {
   context.fillStyle = shape.color;
   context.beginPath();
   context.rect(shape.x, shape.y, shape.w, shape.h);
@@ -173,6 +176,22 @@ clear();
 circle(ball);
 rect(paddle);</code></pre>
     </section>
+
+    <section class="slide">
+      <h2>All the html we'll need</h2>
+      <ul>
+        <li>We'll copy and paste this step into "index.html", then right click and select "open with -> Chrome"</li>
+      </ul>
+      <pre><code class="html">
+&lt;canvas id="canvas" height="500" width="680" style="background: black;display: block;margin: 0 auto;"&gt;&lt;/canvas&gt;
+&lt;script src="game.js"&gt;&lt;/script&gt;
+&lt;center&gt;
+  &lt;button onclick="start();return false;"&gt;Start Game&lt;/button&gt;
+  &lt;button onclick="stop();return false;"&gt;Stop Game&lt;/button&gt;
+&lt;/center&gt;
+</code></pre>
+    </section>
+
     <section class="slide">
       <h2>Make it Bounce!</h2>
       <ul>
@@ -190,25 +209,36 @@ rect(paddle);</code></pre>
 ball.x = WIDTH/2;// arc is already centered!
 
 var fps = 100;
-function draw() {
-  clear();
-
-  // draw ball
+function move() {
+  // move the ball around
   if (ball.x < 0 || ball.x > WIDTH) { ball.dx = -ball.dx }
   if (ball.y < 0 || ball.y > HEIGHT) { ball.dy = -ball.dy }
 
   //(pixels per second)/(frames per second) = pixels per frame
   ball.x += ball.dx/fps; 
   ball.y += ball.dy/fps;
+}
+
+function draw() {
+  clear();
+
+  // draw ball
   circle(ball);
   rect(paddle);
 }
 
 function tick() {
+  move()
   draw();
 }
 
-var interval = setInterval(tick,1000/fps);</code></pre>
+function start() {
+  window.interval = setInterval(tick,1000/fps);
+}
+
+function stop() {
+  clearInterval(interval);
+}</code></pre>
     </section>
 
     <section class="slide">
@@ -218,7 +248,7 @@ var interval = setInterval(tick,1000/fps);</code></pre>
         <li>View <a href="https://github.com/chriscauley/intro-to-js/blob/master/step3.js" target="_blank">step3.js</a>
           for full code</li>
       </ul>
-      <iframe src="step3.html" width="700" height="520"></iframe>
+      <iframe src="step3.html" width="700" height="550"></iframe>
     </section>
 
     <section class="slide">
@@ -227,7 +257,7 @@ var interval = setInterval(tick,1000/fps);</code></pre>
         <li>Use "document.addEventListener(event_name,event_function);" to assign document events.</li>
         <li>"event_function" receives an argument, event, which give you details on what the event is.</li>
         <li>Store which keys are down in variables.</li>
-        <li>View <a href="https://github.com/chriscauley/intro-to-js/blob/master/step4.js" target="_blank">step4.js</a>
+        <li>View <a href="https://github.com/chriscauley/intro-to-js/blob/master/step5.js" target="_blank">step5.js</a>
           for full code</li>
       </ul>
       <pre><code class="js">var rightDown = false;
@@ -251,43 +281,46 @@ document.addEventListener("keyup",onKeyUp);
 //where paddle is defined, give the paddle a dx
 paddle.dx = 200;
 
-//put this in tick, before the paddle is drawn
+//put this in move
   if (leftDown) {
     paddle.x -= paddle.dx/fps;
   }
   if (rightDown) {
     paddle.x += paddle.dx/fps;
   }
+
+//put this in draw
   rect(paddle);</pre></code>
     </section>
 
     <section class="slide">
       <h2>Keyboard input: Demo</h2>
       <ul>
-        <li>View <a href="https://github.com/chriscauley/intro-to-js/blob/master/step5.js" target="_blank">step4.js</a>
+        <li>View <a href="https://github.com/chriscauley/intro-to-js/blob/master/step5.js" target="_blank">step5.js</a>
           for full code</li>
       </ul>
-      <iframe src="step5.html" width="700" height="520"></iframe>
+      <iframe src="step5.html" width="700" height="550"></iframe>
     </section>
 
     <section class="slide">
       <h2>Creating the bricks</h2>
       <ul>
         <li>"createBricks" takes in an opitons object ("o") and returns a list of brick objects.</li>
+        <li>o is short for "options", but I call it "o" because it is used a lot.</li>
         <li>Each brick needs a width, height, x, y, color, and a boolean to tell if it's broken or not.</li>
         <li>We need two forloops, one for the rows and one for the columns</li>
-        <li>View <a href="https://github.com/chriscauley/intro-to-js/blob/master/step5.js" target="_blank">step5.js</a>
+        <li>View <a href="https://github.com/chriscauley/intro-to-js/blob/master/step6.js" target="_blank">step6.js</a>
           for full code</li>
       </ul>
       <pre><code class="js">function createBricks(o) {
   var out = [], x, y, col_max, color;
   var colors = ["red","green","blue","yellow"];
   for (var row=0; row&lt;o.rows; row++) {
-    col_max = Math.floor(o.canvas.width / (o.w+o.s));
+    col_max = Math.floor(WIDTH / (o.w + o.separation));
     if (row%2 == 0) { col_max -=1; }
-    y = (row+3)*(o.h + o.s) + o.s;
+    y = (row+3)*(o.h + o.separation) + o.separation;
     for (var col=0; col&lt;col_max; col++) {
-      x = col*(o.s + o.w) + o.s;
+      x = col*(o.separation + o.w) + o.separation;
       if (row%2 == 0) { x += o.w/2; }
       color = colors[Math.floor((row+col)%colors.length)];
       out.push({x: x, y: y, w: o.w, h: o.h, color: color, broken: false});
@@ -296,15 +329,14 @@ paddle.dx = 200;
   return out;
 }
 
-var brick_options = {w: 40, h: 15, s: 5, canvas: canvas, rows: 4};
+var brick_options = {w: 40, h: 15, separation: 5, canvas: canvas, rows: 4};
 var bricks = createBricks(brick_options);
 
-//draw the bricks after the paddle
-  paddle.draw();
+// put this in the draw function
   for (var i=0;i&lt;bricks.length;i++) {
     b = bricks[i];
     if (!b.broken) {
-      draw.rect(b);
+      rect(b);
     }
   }</code></pre>
     </section>
@@ -312,10 +344,10 @@ var bricks = createBricks(brick_options);
     <section class="slide">
       <h2>Creating the bricks</h2>
       <ul>
-        <li>View <a href="https://github.com/chriscauley/intro-to-js/blob/master/step5.js" target="_blank">step5.js</a>
+        <li>View <a href="https://github.com/chriscauley/intro-to-js/blob/master/step6.js" target="_blank">step6.js</a>
           for full code</li>
       </ul>
-      <iframe src="step5.html" width="700" height="520"></iframe>
+      <iframe src="step6.html" width="700" height="550"></iframe>
     </section>
 
     <section class="slide">

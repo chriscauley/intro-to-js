@@ -73,28 +73,40 @@ rect(paddle);
 circle(ball);
 
 var fps = 100;
-function draw() {
-  clear();
 
-  // draw ball
-  if (ball.x < ball.r || ball.x > WIDTH - ball.r) { ball.dx = -ball.dx }
-  if (ball.y < ball.r || ball.y > HEIGHT - ball.r) { ball.dy = -ball.dy }
-  ball.x += ball.dx/fps; //(pixels per second)/(frames per second) = pixels per frame
-  ball.y += ball.dy/fps;
-  circle(ball);
-  rect(paddle);
-}
-
-function tick() {
+function move() {
+  //move the paddle
   if (leftDown) {
     paddle.x -= paddle.dx/fps;
   }
   if (rightDown) {
     paddle.x += paddle.dx/fps;
   }
-  rect(paddle);
 
+  //move the ball
+  if (ball.x < ball.r || ball.x > WIDTH - ball.r) { ball.dx = -ball.dx }
+  if (ball.y < ball.r || ball.y > HEIGHT - ball.r) { ball.dy = -ball.dy }
+  ball.x += ball.dx/fps; //(pixels per second)/(frames per second) = pixels per frame
+  ball.y += ball.dy/fps;
+}
+
+function draw() {
+  clear();
+
+  // draw ball and paddle
+  circle(ball);
+  rect(paddle);
+}
+
+function tick() {
+  move();
   draw();
 }
 
-var interval = setInterval(tick,1000/fps);
+function start() {
+  window.interval = setInterval(tick,1000/fps);
+}
+
+function stop() {
+  clearInterval(interval);
+}

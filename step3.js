@@ -59,4 +59,10 @@ function tick() {
   draw();
 }
 
-var interval = setInterval(tick,1000/fps);
+function start() {
+  window.interval = setInterval(tick,1000/fps);
+}
+
+function stop() {
+  clearInterval(interval);
+}

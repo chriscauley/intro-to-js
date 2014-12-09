@@ -9,3 +9,12 @@
    retangles have color and x,y, width, and height
    circles have color and x,y, radius
    Game flow: draw flow chart with start, stop, and loop (clear, update, redraw)
+** canvas API
+   getContext
+   how to shape - fillStyle=color, beginPath(), rect(x,y,w,h), fill(), closePath()
+   arc is similar to rect
+   clearRect - can erase part of the board
+   we'll learn more tomorrow
+** Draw functions
+   typing all that out is painful, so we create draw functions
+   
