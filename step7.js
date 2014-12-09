@@ -88,6 +88,43 @@ function createBricks(o) {
 var brick_options = {w: 40, h: 15, separation: 5, canvas: canvas, rows: 4};
 var bricks = createBricks(brick_options);
 
+function collide(ball,brick) {
+  var out = { x: false, y: false };
+  var d_left = ball.x - brick.x;
+  var d_right = brick.x + brick.w - ball.x;
+  var d_top = ball.y - brick.y;
+  var d_bot = brick.y + brick.h - ball.y;
+  if (d_left > 0 && d_right > 0 && d_top > 0 && d_bot > 0) {
+    if (Math.min(d_left,d_right) > Math.min(d_top,d_bot)) {
+      out.y = true;
+    }
+    else {
+      out.x = true;
+    }
+  }
+  return out;
+}
+
+function collisions() {
+  for (var i=0;i<bricks.length;i++) {
+    var _b = bricks[i];
+    if (!_b.broken) {
+      var _c = collide(ball,_b);
+      if (_c.x || _c.y) {
+        _b.broken = true;
+        if (_c.x) { ball.dx = -ball.dx }
+        if (_c.y) { ball.dy = -ball.dy }
+        continue;
+      }
+    }
+  }
+
+  _c = collide(ball,paddle);
+  if (_c.x || _c.y) {
+    ball.dy = - ball.dy;
+  }
+}
+
 // Game Controller
 //-----------------
 function move() {
@@ -123,6 +160,7 @@ function draw() {
 }
 
 function tick() {
+  collisions();
   move();
   draw();
 }
@@ -134,3 +172,4 @@ function start() {
 function stop() {
   clearInterval(interval);
 }
+
