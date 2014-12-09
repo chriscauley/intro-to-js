@@ -1,0 +1,11 @@
+* Day 1
+** What is breakout
+   bunch of bricks
+   ball moving back and forth
+   paddle bounces up
+   if ball moves below a point, game over
+** the canvas (ms paint)
+   x,y plane with top to bot and left to right coordinates
+   retangles have color and x,y, width, and height
+   circles have color and x,y, radius
+   Game flow: draw flow chart with start, stop, and loop (clear, update, redraw)
