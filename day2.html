@@ -253,6 +253,7 @@ canvas.addEventListener("mousemove",onMouseMove);</code></pre>
         <li>You can't control what happens if they tilt their phone too far!</li>
         <li>View <a href="https://github.com/chriscauley/intro-to-js/blob/master/step11.js" target="_blank">step11.js</a>
           for full code</li>
+        <li>Shortened url for demo: http://bit.ly/1vX9NTI</a>
       </ul>
       <pre class="js"><code>// Accelerometer
 //-----------------
@@ -317,9 +318,11 @@ if (window.DeviceOrientationEvent) {
   }
 }
 
-var draw = Draw(canvas);
 var beep = new Sound("beep",8);
-beep.set_volume(0.5);</code></pre>
+beep.set_volume(0.5);
+
+// anywhere you want a beep
+  beep.play()</code></pre>
     </section>
 
     <section class="slide">
@@ -335,8 +338,7 @@ beep.set_volume(0.5);</code></pre>
       <ul>
         <li>Go to <a href="http://github.com/">github.com</a></li>
         <li>Create an account or sign in</li>
-        <li>Create a new repository called breakout, or whatever</li>
-        <li>Be sure to initialize with an empty README</li>
+        <li></li>
         <li>Click the dropdown where it says "branch:master" and type "gh-pages" then hit enter</li>
         <li>Create a file (the plus button above the file listing), call it index.html</li>
         <li>Copy your latest stepX.html content and save it</li>
