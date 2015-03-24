@@ -116,7 +116,12 @@
         <li>View <a href="https://github.com/chriscauley/intro-to-js/blob/master/step2.js" target="_blank">step2.js</a>
           for full code</li>
       </ul>
-      <pre><code class="js">function draw(shape) {
+      <pre><code class="js">var canvas = document.getElementById("canvas");
+var WIDTH = canvas.width;
+var HEIGHT = canvas.height;
+var context = canvas.getContext("2d");
+
+function rect(shape) {
   context.fillStyle = shape.color;
   context.beginPath();
   context.rect(shape.x, shape.y, shape.w, shape.h);
@@ -154,7 +159,9 @@ function circle(c) {
   context.fill();
   context.closePath();
 }
-function clear() { context.clearRect(0,0,WIDTH,HEIGHT); }
+function clear() {
+  context.clearRect(0,0,WIDTH,HEIGHT);
+}
 
 var paddle = {
   w: 60,
